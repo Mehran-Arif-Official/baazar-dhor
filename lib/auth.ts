@@ -14,8 +14,8 @@ function createDatabase() {
     const client = (globalForMongo._mongoClient ??= new MongoClient(uri));
     return mongodbAdapter(client.db(process.env.MONGODB_DB || "bazardor"), { client });
   }
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { DatabaseSync } = require("node:sqlite");
+  // Loaded at runtime so the bundler doesn't try to resolve `node:sqlite`.
+  const { DatabaseSync } = process.getBuiltinModule("node:sqlite");
   return new DatabaseSync(process.env.SQLITE_PATH || "./dev-auth.sqlite");
 }
 
